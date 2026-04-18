@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNI Status Report - Karthik Swaminathan</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .member-info {
+            background: white;
+            color: #2c3e50;
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 12px;
+            border-bottom: 3px solid #27ae60;
+        }
+
+        .member-info div {
+            padding: 5px;
+        }
+
+        .member-info strong {
+            color: #27ae60;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #27ae60;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #27ae60;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: '▶';
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .progress-bar-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 25px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .milestone {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .milestone.completed {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .milestone-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .milestone-date {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .badge.success {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge.info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .action-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .action-list li {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            font-size: 14px;
+        }
+
+        .action-list li::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .wins-section {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .wins-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .wins-section ul {
+            list-style: none;
+        }
+
+        .wins-section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .wins-section li::before {
+            content: '🎯';
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            background: white;
+            color: #2c3e50;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            border-top: 3px solid #27ae60;
+        }
+
+        .footer .status {
+            font-size: 18px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .stat-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .member-info {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #27ae60;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #27ae60;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #27ae60;
+        }
+
+        .timeline-item.completed::before {
+            background: #28a745;
+            box-shadow: 0 0 0 2px #28a745;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 13px;
+        }
+
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 BNI Status Report</h1>
+            <div class="subtitle">Report Period: Week Ending April 18, 2026</div>
+        </div>
+
+        <div class="member-info">
+            <div><strong>Member:</strong> Karthik Swaminathan</div>
+            <div><strong>Category:</strong> Property Maintenance</div>
+            <div><strong>Chapter:</strong> BNI Brilliance</div>
+            <div><strong>Member Since:</strong> April 7, 2026</div>
+        </div>
+
+        <div class="content">
+            <!-- Key Metrics -->
+            <div class="section">
+                <h2 class="section-title">Key Metrics</h2>
+                <div class="stat-cards">
+                    <div class="stat-card">
+                        <div class="number">3</div>
+                        <div class="label">Sessions Attended</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">2</div>
+                        <div class="label">Referrals Given</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">1</div>
+                        <div class="label">Visitors Brought</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">1</div>
+                        <div class="label">1-2-1 Meetings</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Chart -->
+            <div class="section">
+                <h2 class="section-title">Attendance Tracking</h2>
+                <div class="chart-container">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-label">
+                        <span>Attendance Rate</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rising Star Progress -->
+            <div class="section">
+                <h2 class="section-title">Rising Star Program Progress</h2>
+                <div class="chart-container">
+                    <canvas id="risingStarChart"></canvas>
+                </div>
+                
+                <div class="milestone completed">
+                    <div class="milestone-title">
+                        ✅ Stage 1: Member Success Program (MSP)
+                        <span class="badge success">COMPLETED</span>
+                    </div>
+                    <div class="milestone-date">Completed: April 13, 2026</div>
+                </div>
+
+                <div class="milestone">
+                    <div class="milestone-title">
+                        ⏳ Stage 2: Building Your Network
+                        <span class="badge info">IN PROGRESS</span>
+                    </div>
+                    <div class="milestone-date">Target: Weeks 5-8 (May 5 - May 26, 2026)</div>
+                </div>
+            </div>
+
+            <!-- Activity Breakdown -->
+            <div class="section">
+                <h2 class="section-title">Activity Breakdown</h2>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Meeting Timeline -->
+            <div class="section">
+                <h2 class="section-title">Meeting Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">April 1, 2026</div>
+                        <div class="timeline-content">Attended as Visitor</div>
+                    </div>
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">April 7, 2026</div>
+                        <div class="timeline-content">Installation/Induction Ceremony</div>
+                    </div>
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">April 13, 2026</div>
+                        <div class="timeline-content">Regular Chapter Meeting + MSP Completion + Visitor Brought</div>
+                    </div>
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">April 17, 2026</div>
+                        <div class="timeline-content">1-2-1 Meeting with Mr. Arasu</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referrals & Visitors -->
+            <div class="section">
+                <h2 class="section-title">Referrals & Visitors Performance</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-label">
+                        <span>Weekly Visitor Goal</span>
+                        <span>1/1 Achieved</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">✓</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <strong>Referrals Provided (2):</strong>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Arun Kumar - Service referral</li>
+                        <li>Abbas - Mobile services</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Action Plan -->
+            <div class="section">
+                <h2 class="section-title">Week Ahead Action Plan (Apr 19-25)</h2>
+                <ul class="action-list">
+                    <li>Identify and invite 1 qualified visitor for next meeting (FROGS technique)</li>
+                    <li>Schedule 2 additional 1-2-1 meetings with strategic referral partners</li>
+                    <li>Listen to BNI University Stage 2 podcasts</li>
+                    <li>Prepare specific referral requests for top 3 priority categories</li>
+                </ul>
+            </div>
+
+            <!-- Key Wins -->
+            <div class="wins-section">
+                <h3>🏆 Key Wins This Week</h3>
+                <ul>
+                    <li>Strong start with 100% meeting attendance</li>
+                    <li>MSP completion in first full week - ahead of schedule</li>
+                    <li>First visitor brought successfully</li>
+                    <li>First 1-2-1 meeting completed</li>
+                    <li>Clear commitment to weekly visitor goal established</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="status">✅ Overall Status: ON TRACK</div>
+            <div>Excellent momentum in first two weeks of membership!</div>
+            <div style="margin-top: 10px; font-size: 12px; opacity: 0.8;">
+                Keep up the outstanding work! Your early engagement positions you perfectly for Rising Star success.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Attendance Chart
+        const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(attendanceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Apr 1\n(Visitor)', 'Apr 7\n(Install)', 'Apr 13\n(Regular)'],
+                datasets: [{
+                    label: 'Meetings Attended',
+                    data: [1, 1, 1],
+                    backgroundColor: [
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(46, 204, 113, 0.8)'
+                    ],
+                    borderColor: 'rgba(39, 174, 96, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1.5,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: '100% Attendance Since Induction'
+                    }
+                }
+            }
+        });
+
+        // Rising Star Progress Chart
+        const risingStarCtx = document.getElementById('risingStarChart').getContext('2d');
+        new Chart(risingStarCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'Remaining'],
+                datasets: [{
+                    data: [16.67, 83.33],
+                    backgroundColor: [
+                        'rgba(40, 167, 69, 0.8)',
+                        'rgba(220, 220, 220, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(40, 167, 69, 1)',
+                        'rgba(200, 200, 200, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Rising Star Program (Stage 1 of 6 Complete)'
+                    }
+                }
+            }
+        });
+
+        // Activity Breakdown Chart
+        const activityCtx = document.getElementById('activityChart').getContext('2d');
+        new Chart(activityCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Meetings', 'Referrals', 'Visitors', '1-2-1s', 'Training'],
+                datasets: [{
+                    label: 'Week 2 Performance',
+                    data: [3, 2, 1, 1, 1],
+                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                    borderColor: 'rgba(39, 174, 96, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(39, 174, 96, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(39, 174, 96, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 5
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Animate progress bars on load
+        window.addEventListener('load', function() {
+            const fills = document.querySelectorAll('.progress-fill');
+            fills.forEach(fill => {
+                const width = fill.style.width;
+                fill.style.width = '0%';
+                setTimeout(() => {
+                    fill.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
