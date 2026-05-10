@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakthivel BNI Success Blueprint</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2C5F2D;
+            --secondary: #97BC62;
+            --accent: #4A7C4E;
+            --light: #E8F5E9;
+            --dark: #1B3F1C;
+            --white: #FFFFFF;
+            --red: #DC3545;
+            --orange: #FD7E14;
+            --yellow: #FFC107;
+            --warning: #FFF3CD;
+            --warning-text: #856404;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            color: var(--white);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            color: var(--secondary);
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .header .name {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .header .business {
+            color: var(--secondary);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .nav-tabs {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 2px solid var(--light);
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .nav-tabs::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        .nav-tabs-inner {
+            display: flex;
+            min-width: min-content;
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 110px;
+            padding: 14px 8px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #666;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: var(--light);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .status-table th {
+            background: var(--primary);
+            color: var(--white);
+            padding: 10px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .status-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .status-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-complete {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .status-partial {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .status-empty {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .alert-warning {
+            background: var(--warning);
+            color: var(--warning-text);
+            border-left: 4px solid var(--warning-text);
+        }
+
+        .alert-critical {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid var(--red);
+        }
+
+        .strengths-gaps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .strengths-gaps {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .box {
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--light);
+        }
+
+        .box h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .box.strengths h4 {
+            color: var(--primary);
+        }
+
+        .box.gaps h4 {
+            color: var(--red);
+        }
+
+        .box ul {
+            list-style: none;
+            font-size: 12px;
+        }
+
+        .box ul li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .box ul li:before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            font-weight: bold;
+        }
+
+        .script-box {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .script-label {
+            background: var(--accent);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .script-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .example-box {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .example-box strong {
+            color: var(--primary);
+        }
+
+        .example-box em {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .schedule-item {
+            background: var(--white);
+            border-left: 4px solid var(--primary);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .schedule-day {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--dark);
+        }
+
+        .schedule-time {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .schedule-activity {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .schedule-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .schedule-duration {
+            color: #666;
+        }
+
+        .priority-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .priority-critical {
+            background: var(--red);
+        }
+
+        .priority-high {
+            background: var(--orange);
+        }
+
+        .priority-medium {
+            background: var(--yellow);
+            color: #333;
+        }
+
+        .customer-field {
+            background: var(--white);
+            border: 2px solid var(--light);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .customer-field:nth-child(even) {
+            background: var(--light);
+        }
+
+        .routine-day {
+            margin-bottom: 20px;
+        }
+
+        .routine-day-header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 12px;
+            border-radius: 8px 8px 0 0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .routine-day-header.friday {
+            background: var(--accent);
+        }
+
+        .routine-tasks {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .routine-tasks ul {
+            list-style: none;
+        }
+
+        .routine-tasks li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 12px;
+        }
+
+        .routine-tasks li:before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .checklist-item {
+            background: var(--white);
+            border: 2px solid var(--light);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checklist-number {
+            font-size: 24px;
+            min-width: 35px;
+        }
+
+        .checklist-content {
+            flex: 1;
+        }
+
+        .checklist-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .checklist-priority {
+            font-size: 11px;
+            color: var(--white);
+            background: var(--red);
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        .tip-box {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        .tip-box strong {
+            color: var(--primary);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* Utility classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+
+        .mb-15 {
+            margin-bottom: 15px;
+        }
+
+        .mt-15 {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BNI Success Blueprint</h1>
+        <div class="subtitle">Complete Evaluation & Action Plan</div>
+        <div class="name">Sakthivel Dhanabalakrishnan</div>
+        <div class="business">N2P Systems | Recruitment & Staffing Solutions</div>
+    </div>
+
+    <div class="nav-tabs">
+        <div class="nav-tabs-inner">
+            <button class="tab-button active" onclick="showTab('status')">Status</button>
+            <button class="tab-button" onclick="showTab('b2b')">B2B Script</button>
+            <button class="tab-button" onclick="showTab('b2c')">B2C Script</button>
+            <button class="tab-button" onclick="showTab('planner')">168 Planner</button>
+            <button class="tab-button" onclick="showTab('customers')">Customers</button>
+            <button class="tab-button" onclick="showTab('routine')">Routine</button>
+            <button class="tab-button" onclick="showTab('action')">Action Plan</button>
+        </div>
+    </div>
+
+    <!-- Tab 1: Status -->
+    <div id="status" class="tab-content active">
+        <div class="section">
+            <h2 class="section-title">121 Sheet: Current Status</h2>
+            
+            <table class="status-table">
+                <thead>
+                    <tr>
+                        <th>Section</th>
+                        <th>Status</th>
+                        <th>%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bio Sheet</td>
+                        <td class="status-complete">✓ Completed</td>
+                        <td><strong>100%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>GAINS Worksheet</td>
+                        <td class="status-partial">⚠ Partial</td>
+                        <td><strong>40%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Contact Sphere</td>
+                        <td class="status-complete">✓ Completed</td>
+                        <td><strong>100%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Top 10 Customers</td>
+                        <td class="status-empty">✗ Empty</td>
+                        <td><strong>0%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-critical">
+                🎯 <strong>CRITICAL PRIORITY:</strong> Complete Top 10 Customers worksheet with success stories
+            </div>
+
+            <div class="strengths-gaps">
+                <div class="box strengths">
+                    <h4>Key Strengths</h4>
+                    <ul>
+                        <li>Well-defined contact sphere (20 categories)</li>
+                        <li>Clear business goals with metrics</li>
+                        <li>Strategic partnerships established</li>
+                    </ul>
+                </div>
+                <div class="box gaps">
+                    <h4>Critical Gaps</h4>
+                    <ul>
+                        <li>No documented customer success stories</li>
+                        <li>Accomplishments section empty</li>
+                        <li>Missing elevator pitch</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 2: B2B Script -->
+    <div id="b2b" class="tab-content">
+        <div class="section">
+            <h2 class="section-title">Weekly Presentation: B2B Format</h2>
+            <p class="section-subtitle">BNI Chennai CBD 'B' - Standard B2B Structure</p>
+
+            <div class="script-box">
+                <div class="script-label">Opening</div>
+                <div class="script-text">
+                    I am <strong>Sakthivel Dhanabalakrishnan</strong>, into <strong>Recruitment & Staffing Solutions</strong>.
+                </div>
+            </div>
+
+            <div class="script-box">
+                <div class="script-label">Success Story</div>
+                <div class="script-text">
+                    Recently we have helped <strong>Mr./Ms. [Client Name]</strong>, <strong>[Designation]</strong>, <strong>[Company Name]</strong>, with <strong>[specific LCD/strength - e.g., "rapid placement of 5 Python developers"]</strong> and he/she was <strong>[emotional word - thrilled/relieved/impressed]</strong>.
+                </div>
+            </div>
+
+            <div class="script-box">
+                <div class="script-label">Specific Ask</div>
+                <div class="script-text">
+                    Kindly connect me to <strong>[Competition of your client in the same industry]</strong> Mr./Ms. <strong>[Name of the Person]</strong>, <strong>[Designation/Title]</strong>, <strong>[Department]</strong>, <strong>[Company Name]</strong>, <strong>[Industry]</strong>.
+                </div>
+            </div>
+
+            <div class="script-box">
+                <div class="script-label">Closing</div>
+                <div class="script-text">
+                    I am <strong>Sakthivel Dhanabalakrishnan</strong>, into <strong>Recruitment & Staffing Solutions</strong>.
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Key:</strong> Replace [bracketed items] with actual client details from your success stories
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Sample B2B Presentation</h2>
+            <p class="section-subtitle">Example: IT Company Placement Success</p>
+
+            <div class="example-box">
+                <strong>"I am Sakthivel Dhanabalakrishnan, into Recruitment & Staffing Solutions.</strong><br><br>
+                
+                Recently we helped <strong>Mr. Rajesh Kumar, CTO, TechVision Solutions</strong>, with <strong>placing 5 Python developers within 10 days</strong>, and he was <em>absolutely thrilled</em> as this reduced their time-to-hire by 60%.<br><br>
+                
+                Kindly connect me to <strong>Ms. Priya Sharma, VP of Engineering, CodeCraft Systems, Software Development Industry</strong>.<br><br>
+                
+                <strong>I am Sakthivel Dhanabalakrishnan, into Recruitment & Staffing Solutions."</strong>
+            </div>
+
+            <div class="alert alert-warning">
+                📌 Note: This format requests a specific competitor in the same industry
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 3: B2C Script -->
+    <div id="b2c" class="tab-content">
+        <div class="section">
+            <h2 class="section-title">Weekly Presentation: B2C Format</h2>
+            <p class="section-subtitle">BNI Chennai CBD 'B' - Standard B2C Structure</p>
+
+            <div class="script-box">
+                <div class="script-label">Opening</div>
+                <div class="script-text">
+                    I am <strong>Sakthivel Dhanabalakrishnan</strong>, into <strong>Recruitment & Staffing Solutions</strong>.
+                </div>
+            </div>
+
+            <div class="script-box">
+                <div class="script-label">Success Story</div>
+                <div class="script-text">
+                    Recently we have helped <strong>Mr./Ms. [Client Name]</strong>, <strong>[Designation]</strong>, <strong>[Company Name]</strong>, with <strong>[specific LCD/strength - e.g., "finding the perfect career opportunity"]</strong> and he/she was <strong>[emotional word - delighted/grateful/excited]</strong>.
+                </div>
+            </div>
+
+            <div class="script-box">
+                <div class="script-label">Specific Ask</div>
+                <div class="script-text">
+                    Kindly connect me to <strong>Mr./Ms. [Name of the Person]</strong>, <strong>[relationship with the Member - e.g., "your cousin/colleague/neighbor"]</strong>, Who is <strong>[What type of person needs that - e.g., "looking for a career change in IT"]</strong>, I can help him/her with <strong>[Your Product/service - e.g., "personalized job matching and placement"]</strong>.
+                </div>
+            </div>
+
+            <div class="script-box">
+                <div class="script-label">Closing</div>
+                <div class="script-text">
+                    I am <strong>Sakthivel Dhanabalakrishnan</strong>, into <strong>Recruitment & Staffing Solutions</strong>.
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 B2C Focus:</strong> Emphasize personal connection and individual career transformation
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 4: 168 Planner -->
+    <div id="planner" class="tab-content">
+        <div class="section">
+            <h2 class="section-title">168 Hour Weekly Planner</h2>
+            <p class="section-subtitle">Time Management for BNI Success</p>
+
+            <div class="schedule-item">
+                <div class="schedule-header">
+                    <div class="schedule-day">FRIDAY</div>
+                    <div class="schedule-time">6:30 AM</div>
+                </div>
+                <div class="schedule-activity">BNI Chapter Meeting</div>
+                <div class="schedule-footer">
+                    <div class="schedule-duration">90 minutes</div>
+                    <div class="priority-badge priority-critical">CRITICAL</div>
+                </div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="schedule-header">
+                    <div class="schedule-day">DAILY</div>
+                    <div class="schedule-time">8:00 AM</div>
+                </div>
+                <div class="schedule-activity">Listen to 10-min BNI Podcast</div>
+                <div class="schedule-footer">
+                    <div class="schedule-duration">10 minutes</div>
+                    <div class="priority-badge priority-high">HIGH</div>
+                </div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="schedule-header">
+                    <div class="schedule-day">DAILY</div>
+                    <div class="schedule-time">1:00 PM</div>
+                </div>
+                <div class="schedule-activity">Call a Referral Partner</div>
+                <div class="schedule-footer">
+                    <div class="schedule-duration">10 minutes</div>
+                    <div class="priority-badge priority-high">HIGH</div>
+                </div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="schedule-header">
+                    <div class="schedule-day">MON/WED</div>
+                    <div class="schedule-time">3:30 PM</div>
+                </div>
+                <div class="schedule-activity">1-to-1 Meetings (121)</div>
+                <div class="schedule-footer">
+                    <div class="schedule-duration">60 minutes</div>
+                    <div class="priority-badge priority-high">HIGH</div>
+                </div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="schedule-header">
+                    <div class="schedule-day">DAILY</div>
+                    <div class="schedule-time">6:00 PM</div>
+                </div>
+                <div class="schedule-activity">Call a Contact & Invite to BNI</div>
+                <div class="schedule-footer">
+                    <div class="schedule-duration">10 minutes</div>
+                    <div class="priority-badge priority-medium">MEDIUM</div>
+                </div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="schedule-header">
+                    <div class="schedule-day">SATURDAY</div>
+                    <div class="schedule-time">2:00 PM</div>
+                </div>
+                <div class="schedule-activity">BNI Training Session</div>
+                <div class="schedule-footer">
+                    <div class="schedule-duration">90 minutes</div>
+                    <div class="priority-badge priority-high">HIGH</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>⏰ Total Weekly BNI Investment:</strong> ~6 hours = 3.6% of your week for maximum ROI
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 5: Customers -->
+    <div id="customers" class="tab-content">
+        <div class="section">
+            <h2 class="section-title">Customer Success Stories</h2>
+            <p class="section-subtitle">Complete Minimum 5 Stories</p>
+
+            <div class="alert alert-critical">
+                🎯 <strong>THIS WEEK:</strong> Critical priority for weekly presentations
+            </div>
+
+            <h3 class="mb-15" style="font-size: 16px; color: var(--dark); margin-top: 20px;">Template (Fill for Each Customer):</h3>
+
+            <div class="customer-field">
+                <strong>1. Client Name & Industry</strong><br>
+                <span style="color: #999; font-size: 12px;">e.g., TechVision Solutions | Software Development</span>
+            </div>
+
+            <div class="customer-field">
+                <strong>2. What Product/Service did you provide?</strong><br>
+                <span style="color: #999; font-size: 12px;">e.g., Rapid placement of 5 Python developers</span>
+            </div>
+
+            <div class="customer-field">
+                <strong>3. What Problem was the client facing?</strong><br>
+                <span style="color: #999; font-size: 12px;">e.g., Urgent need for developers, previous hiring took 8 weeks</span>
+            </div>
+
+            <div class="customer-field">
+                <strong>4. What Tangible/Intangible Benefit did they receive?</strong><br>
+                <span style="color: #999; font-size: 12px;">e.g., Placed in 10 days, 60% reduction in time-to-hire</span>
+            </div>
+
+            <div class="customer-field">
+                <strong>5. Specific Connects you're looking for in same industry</strong><br>
+                <span style="color: #999; font-size: 12px;">e.g., CTOs and VPs of Engineering in software companies (50-200 employees)</span>
+            </div>
+
+            <div class="example-box mt-15">
+                <strong>Example Success Story:</strong><br><br>
+                <em>"TechVision Solutions needed 5 Python developers urgently. We placed qualified candidates within 10 days, reducing their time-to-hire by 60%. Looking for connections to CTOs in software companies with 50-200 employees."</em>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 6: Routine -->
+    <div id="routine" class="tab-content">
+        <div class="section">
+            <h2 class="section-title">Your BNI Weekly Routine</h2>
+            <p class="section-subtitle">Structured Success Schedule</p>
+
+            <div class="routine-day">
+                <div class="routine-day-header">MONDAY</div>
+                <div class="routine-tasks">
+                    <ul>
+                        <li>8:00 AM - BNI Podcast (10 min)</li>
+                        <li>1:00 PM - Call referral partner from contact sphere</li>
+                        <li>3:30 PM - 1-to-1 Meeting with chapter member</li>
+                        <li>6:00 PM - Invite contact to visit BNI</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="routine-day">
+                <div class="routine-day-header">WEDNESDAY</div>
+                <div class="routine-tasks">
+                    <ul>
+                        <li>8:00 AM - BNI Podcast (10 min)</li>
+                        <li>1:00 PM - Call different referral partner</li>
+                        <li>3:30 PM - Another 1-to-1 Meeting</li>
+                        <li>6:00 PM - Follow up on previous week's referrals</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="routine-day">
+                <div class="routine-day-header friday">FRIDAY</div>
+                <div class="routine-tasks">
+                    <ul>
+                        <li>6:30 AM - BNI Chapter Meeting (90 min)</li>
+                        <li>Deliver weekly presentation using format</li>
+                        <li>1:00 PM - Call referral partner</li>
+                        <li>6:00 PM - Invite new contact to next meeting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="routine-day">
+                <div class="routine-day-header">SATURDAY</div>
+                <div class="routine-tasks">
+                    <ul>
+                        <li>8:00 AM - BNI Podcast (10 min)</li>
+                        <li>2:00 PM - BNI Training Session (90 min)</li>
+                        <li>Evening - Prepare next week's presentation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 7: Action Plan -->
+    <div id="action" class="tab-content">
+        <div class="section">
+            <h2 class="section-title">Your Action Checklist</h2>
+            <p class="section-subtitle">Immediate Priorities</p>
+
+            <div class="checklist-item">
+                <div class="checklist-number">1️⃣</div>
+                <div class="checklist-content">
+                    <div class="checklist-text">Complete Top 10 Customers with 5+ success stories</div>
+                    <div class="checklist-priority">THIS WEEK</div>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="checklist-number">2️⃣</div>
+                <div class="checklist-content">
+                    <div class="checklist-text">Prepare both B2B and B2C presentation scripts</div>
+                    <div class="checklist-priority">THIS WEEK</div>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="checklist-number">3️⃣</div>
+                <div class="checklist-content">
+                    <div class="checklist-text">Block 168 Planner times for BNI activities</div>
+                    <div class="checklist-priority">TODAY</div>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="checklist-number">4️⃣</div>
+                <div class="checklist-content">
+                    <div class="checklist-text">Schedule 2 one-to-one meetings for next week</div>
+                    <div class="checklist-priority">THIS WEEK</div>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <div class="checklist-number">5️⃣</div>
+                <div class="checklist-content">
+                    <div class="checklist-text">List 5 contacts to invite to BNI meetings</div>
+                    <div class="checklist-priority">THIS WEEK</div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning mt-15">
+                <strong>💡 Success Tip:</strong> Complete customer success stories first - they're the foundation for all weekly presentations and referral requests!
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        BNI Success Blueprint | N2P Systems | Chennai • May 2026
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
